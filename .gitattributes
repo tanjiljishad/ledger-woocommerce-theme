@@ -1,0 +1,19 @@
+# Normalise line endings to LF in the repo; check out native on Windows only
+# where it matters. Keeps CI (Linux) and local (Windows) diffs clean.
+* text=auto eol=lf
+
+*.png binary
+*.jpg binary
+*.jpeg binary
+*.gif binary
+*.webp binary
+*.woff binary
+*.woff2 binary
+*.sql binary
+*.tar binary
+*.tar.gz binary
+*.tgz binary
+
+# Snapshot binaries via Git LFS (roadmap 5.3)
+tools/seed/snapshot/*.sql filter=lfs diff=lfs merge=lfs -text
+tools/seed/snapshot/*.tar.gz filter=lfs diff=lfs merge=lfs -text

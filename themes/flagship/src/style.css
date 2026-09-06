@@ -1,0 +1,33 @@
+/*
+ * Ledger Flagship — front-end runtime styles.
+ * Source file. `pnpm --filter @ledger/flagship run build` copies this to
+ * build/style.css and the token sheet to assets/tokens.css.
+ * Keep this lean: the stylesheet budget is 18 KB gzipped (see .size-limit.json).
+ */
+
+:where(body) {
+	margin: 0;
+	font-family: var( --wp--preset--font-family--system, system-ui, -apple-system, "Segoe UI", Roboto, sans-serif );
+	color: var( --ledger-color-neutral-900 );
+	background: var( --ledger-color-neutral-0 );
+	line-height: 1.6;
+}
+
+.ledger-header a {
+	text-decoration: none;
+}
+
+.ledger-footer {
+	color: var( --ledger-color-neutral-600 );
+}
+
+/* Product grid rhythm — WooCommerce blocks bring their own layout, this only
+   normalises gaps to the spacing scale. */
+.wp-block-woocommerce-product-collection .wp-block-post-template {
+	gap: var( --ledger-space-5 );
+}
+
+.wc-block-components-product-button .wp-block-button__link {
+	border-radius: var( --ledger-radius-md );
+	transition: background-color var( --ledger-motion-fast ) var( --ledger-motion-ease );
+}

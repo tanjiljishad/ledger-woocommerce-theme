@@ -1,0 +1,24 @@
+# Architecture decision records
+
+Every architectural decision gets a numbered file here, in the format of
+[`0000-template.md`](0000-template.md). This is how the project stays resumable
+if the author steps away (roadmap 1.1).
+
+Rules:
+
+- One decision per file. Number sequentially, zero-padded to four digits.
+- Never delete or rewrite an accepted ADR. To change a decision, write a new
+  ADR that supersedes it and update the old one's status to
+  `superseded by ADR-XXXX`.
+- Reference ADRs from code comments and other docs by number.
+
+## Index
+
+| # | Title | Status |
+| --- | --- | --- |
+| [0001](0001-gutenberg-not-a-page-builder.md) | Build on Gutenberg, not a page builder | accepted |
+| [0002](0002-proprietary-license.md) | Proprietary license, MIT-incompatible header | accepted |
+| [0003](0003-monorepo-pnpm-composer.md) | Single monorepo: pnpm workspace + root Composer | accepted |
+| [0004](0004-phpstan-level-8.md) | PHPStan level 8 from the first commit | accepted |
+| [0005](0005-token-compiler-single-source.md) | `tokens.json` is the single source; artefacts generated | accepted |
+| [0006](0006-performance-budget-is-a-hard-gate.md) | Performance budget is a hard gate, never relaxed | accepted |

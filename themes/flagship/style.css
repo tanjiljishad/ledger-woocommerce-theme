@@ -1,0 +1,24 @@
+/*
+Theme Name:   Ledger Flagship
+Theme URI:    https://example.com/ledger
+Author:       Tanjil
+Author URI:   https://example.com
+Description:  Performance-gated block theme for WooCommerce. Renders a browsable shop with core WooCommerce blocks even with every Ledger plugin deactivated.
+Requires at least: 6.6
+Tested up to: 6.8
+Requires PHP: 8.2
+Version:      0.1.0
+License:      Proprietary
+License URI:  https://example.com/ledger/license
+Text Domain:  ledger-flagship
+Tags:         full-site-editing, block-patterns, e-commerce
+
+Ledger — Proprietary Commercial License. Copyright (c) 2026 Tanjil.
+All rights reserved. See LICENSE at the repository root.
+*/
+
+/*
+ * Runtime styles live in ./build/style.css (compiled) and packages/tokens/dist/tokens.css.
+ * This file is the theme header only — WordPress requires it, block themes do not
+ * load it on the front end.
+ */

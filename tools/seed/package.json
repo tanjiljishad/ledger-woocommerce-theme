@@ -1,0 +1,7 @@
+{
+  "name": "@ledger/seed",
+  "version": "0.1.0",
+  "private": true,
+  "license": "SEE LICENSE IN ../../LICENSE",
+  "description": "Dev-only WP-CLI seed commands and snapshot tooling. Not shipped."
+}

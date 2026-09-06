@@ -1,0 +1,7 @@
+# pnpm workspace. Hoisting is disabled for WordPress packages in .npmrc —
+# @wordpress/* and Gutenberg tooling do not tolerate a hoisted node_modules.
+packages:
+  - 'themes/*'
+  - 'plugins/*'
+  - 'packages/*'
+  - 'tools/*'

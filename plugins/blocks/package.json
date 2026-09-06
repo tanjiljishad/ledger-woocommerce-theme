@@ -1,0 +1,13 @@
+{
+  "name": "@ledger/blocks",
+  "version": "0.1.0",
+  "private": true,
+  "license": "SEE LICENSE IN ../../LICENSE",
+  "scripts": {
+    "build": "wp-scripts build --experimental-modules",
+    "start": "wp-scripts start --experimental-modules"
+  },
+  "devDependencies": {
+    "@wordpress/scripts": "30.5.1"
+  }
+}

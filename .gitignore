@@ -1,0 +1,41 @@
+# Dependencies
+node_modules/
+vendor/
+
+# Build output
+dist/
+build/
+.tsc/
+*.tsbuildinfo
+
+# ...except the token compiler's outputs, which are generated-and-committed
+# so `tokens:check` can diff against them and reviewers see token changes.
+!packages/tokens/dist/
+!packages/tokens/dist/**
+
+# wp-env / local WordPress
+.wp-env/uploads/*
+!.wp-env/uploads/.gitkeep
+wp-cli.local.yml
+
+# Seed snapshot (tracked via Git LFS or CI cache, not the working tree)
+tools/seed/snapshot/*.sql
+tools/seed/snapshot/*.tar
+tools/seed/snapshot/*.tar.gz
+
+# Test artefacts
+playwright-report/
+test-results/
+.lighthouseci/
+lhci_reports/
+
+# Editor / OS
+.DS_Store
+Thumbs.db
+.idea/
+.vscode/*
+!.vscode/extensions.json
+
+# Env
+.env
+.env.local

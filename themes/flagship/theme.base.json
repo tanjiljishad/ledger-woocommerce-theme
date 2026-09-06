@@ -1,0 +1,45 @@
+{
+	"_note": "Hand-authored non-settings parts of theme.json. The token compiler merges the generated `settings` block over this and writes themes/flagship/theme.json. Edit here, never in the generated file.",
+	"templateParts": [
+		{ "name": "header", "title": "Header", "area": "header" },
+		{ "name": "footer", "title": "Footer", "area": "footer" }
+	],
+	"customTemplates": [
+		{ "name": "page-no-title", "title": "Page (no title)", "postTypes": [ "page" ] }
+	],
+	"styles": {
+		"color": {
+			"background": "var(--wp--preset--color--neutral-0)",
+			"text": "var(--wp--preset--color--neutral-900)"
+		},
+		"typography": {
+			"fontFamily": "system-ui, -apple-system, \"Segoe UI\", Roboto, Helvetica, Arial, sans-serif",
+			"fontSize": "var(--wp--preset--font-size--base)",
+			"lineHeight": "1.6"
+		},
+		"spacing": {
+			"blockGap": "var(--wp--preset--spacing--4)",
+			"padding": {
+				"top": "0",
+				"bottom": "0",
+				"left": "var(--wp--preset--spacing--4)",
+				"right": "var(--wp--preset--spacing--4)"
+			}
+		},
+		"elements": {
+			"button": {
+				"color": {
+					"background": "var(--wp--preset--color--brand-500)",
+					"text": "var(--wp--preset--color--neutral-0)"
+				},
+				"border": { "radius": "var(--wp--custom--radius--md)" },
+				":hover": {
+					"color": { "background": "var(--wp--preset--color--brand-600)" }
+				}
+			},
+			"link": {
+				"color": { "text": "var(--wp--preset--color--brand-600)" }
+			}
+		}
+	}
+}

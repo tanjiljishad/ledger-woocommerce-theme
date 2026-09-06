@@ -1,0 +1,19 @@
+{
+  "name": "@ledger/tokens",
+  "version": "0.0.0",
+  "private": true,
+  "type": "module",
+  "license": "SEE LICENSE IN ../../LICENSE",
+  "main": "./dist/defaults.ts",
+  "exports": {
+    ".": "./dist/defaults.ts",
+    "./tokens.css": "./dist/tokens.css",
+    "./theme.settings.json": "./dist/theme.settings.json",
+    "./tokens.json": "./tokens.json"
+  },
+  "scripts": {
+    "build": "node src/compile.mjs",
+    "check": "node src/compile.mjs --check",
+    "test": "node --test \"test/**/*.test.mjs\""
+  }
+}

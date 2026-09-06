@@ -1,0 +1,37 @@
+{
+  "name": "ledger",
+  "version": "0.0.0",
+  "private": true,
+  "license": "SEE LICENSE IN LICENSE",
+  "packageManager": "pnpm@9.12.3",
+  "engines": {
+    "node": ">=20 <21 || >=22",
+    "pnpm": ">=9"
+  },
+  "scripts": {
+    "tokens:build": "node packages/tokens/src/compile.mjs",
+    "tokens:check": "node packages/tokens/src/compile.mjs --check",
+    "tokens:test": "node --test \"packages/tokens/test/**/*.test.mjs\"",
+    "build": "pnpm run tokens:build && pnpm -r --if-present run build",
+    "lint": "eslint . --max-warnings 0",
+    "typecheck": "tsc -b --pretty",
+    "test:e2e": "playwright test",
+    "lhci": "lhci autorun",
+    "size": "size-limit",
+    "seed:generate": "wp-env run cli wp ledger seed generate --count=5000",
+    "seed:export": "node tools/seed/export-snapshot.mjs",
+    "seed:restore": "node tools/seed/restore-snapshot.mjs",
+    "reset": "node tools/seed/reset.mjs"
+  },
+  "devDependencies": {
+    "@playwright/test": "1.48.2",
+    "@size-limit/file": "11.1.6",
+    "@wordpress/eslint-plugin": "21.5.0",
+    "@wordpress/prettier-config": "4.13.0",
+    "eslint": "8.57.1",
+    "prettier": "3.3.3",
+    "size-limit": "11.1.6",
+    "typescript": "5.6.3",
+    "@lhci/cli": "0.14.0"
+  }
+}

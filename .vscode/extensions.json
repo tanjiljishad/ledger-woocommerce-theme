@@ -1,0 +1,10 @@
+{
+  "recommendations": [
+    "dbaeumer.vscode-eslint",
+    "esbenp.prettier-vscode",
+    "editorconfig.editorconfig",
+    "bmewburn.vscode-intelephense-client",
+    "wordpresstoolbox.wordpress-toolbox",
+    "ms-playwright.playwright"
+  ]
+}
