@@ -8,14 +8,17 @@
 
 import { execFileSync } from 'node:child_process';
 
-const run = ( cmd, args ) => {
-	process.stdout.write( `\n$ ${ cmd } ${ args.join( ' ' ) }\n` );
-	execFileSync( cmd, args, { stdio: 'inherit', shell: process.platform === 'win32' } );
+const run = (cmd, args) => {
+	process.stdout.write(`\n$ ${cmd} ${args.join(' ')}\n`);
+	execFileSync(cmd, args, {
+		stdio: 'inherit',
+		shell: process.platform === 'win32',
+	});
 };
 
-run( 'pnpm', [ 'wp-env', 'start' ] );
-run( 'node', [ 'tools/seed/restore-snapshot.mjs' ] );
-run( 'pnpm', [ 'wp-env', 'run', 'cli', 'wp', 'cache', 'flush' ] );
-run( 'pnpm', [ 'wp-env', 'run', 'cli', 'wp', 'transient', 'delete', '--all' ] );
+run('pnpm', ['wp-env', 'start']);
+run('node', ['tools/seed/restore-snapshot.mjs']);
+run('pnpm', ['wp-env', 'run', 'cli', 'wp', 'cache', 'flush']);
+run('pnpm', ['wp-env', 'run', 'cli', 'wp', 'transient', 'delete', '--all']);
 
-process.stdout.write( '\nShop reset. http://localhost:8889/shop/\n' );
+process.stdout.write('\nShop reset. http://localhost:8889/shop/\n');

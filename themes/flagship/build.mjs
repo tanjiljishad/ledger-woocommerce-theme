@@ -12,25 +12,25 @@ import { mkdirSync, readFileSync, writeFileSync, copyFileSync } from 'node:fs';
 import { dirname, join } from 'node:path';
 import { fileURLToPath } from 'node:url';
 
-const HERE = dirname( fileURLToPath( import.meta.url ) );
-const REPO = join( HERE, '..', '..' );
+const HERE = dirname(fileURLToPath(import.meta.url));
+const REPO = join(HERE, '..', '..');
 
-mkdirSync( join( HERE, 'assets' ), { recursive: true } );
-mkdirSync( join( HERE, 'build' ), { recursive: true } );
+mkdirSync(join(HERE, 'assets'), { recursive: true });
+mkdirSync(join(HERE, 'build'), { recursive: true });
 
 copyFileSync(
-	join( REPO, 'packages', 'tokens', 'dist', 'tokens.css' ),
-	join( HERE, 'assets', 'tokens.css' )
+	join(REPO, 'packages', 'tokens', 'dist', 'tokens.css'),
+	join(HERE, 'assets', 'tokens.css')
 );
 
-const src = readFileSync( join( HERE, 'src', 'style.css' ), 'utf8' );
+const src = readFileSync(join(HERE, 'src', 'style.css'), 'utf8');
 const min = src
-	.replace( /\/\*[\s\S]*?\*\//g, '' )
-	.replace( /\s+/g, ' ' )
-	.replace( /\s*([{}:;,>])\s*/g, '$1' )
-	.replace( /;}/g, '}' )
+	.replace(/\/\*[\s\S]*?\*\//g, '')
+	.replace(/\s+/g, ' ')
+	.replace(/\s*([{}:;,>])\s*/g, '$1')
+	.replace(/;}/g, '}')
 	.trim();
 
-writeFileSync( join( HERE, 'build', 'style.css' ), min + '\n' );
+writeFileSync(join(HERE, 'build', 'style.css'), min + '\n');
 
-process.stdout.write( '  theme: wrote assets/tokens.css and build/style.css\n' );
+process.stdout.write('  theme: wrote assets/tokens.css and build/style.css\n');

@@ -27,7 +27,10 @@ module.exports = {
     {
       files: [ '*.ts', '*.tsx' ],
       parser: '@typescript-eslint/parser',
-      parserOptions: { project: [ './tsconfig.json' ] },
+      // tsconfig.json is a solution file with no `files`, so it resolves no
+      // sources for typed linting. tsconfig.eslint.json is the lint-only
+      // program covering the .ts we actually lint (e2e specs, *.config.ts).
+      parserOptions: { project: [ './tsconfig.eslint.json' ] },
     },
     {
       files: [ 'tests/e2e/**/*.ts', '**/*.spec.ts' ],
