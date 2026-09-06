@@ -15,17 +15,20 @@ defined( 'WP_UNINSTALL_PLUGIN' ) || exit;
 
 global $wpdb;
 
-$options = array(
+$ledger_options = array(
 	'ledger_core_activated_at',
 	'ledger_core_settings',
 );
 
-foreach ( $options as $option ) {
-	delete_option( $option );
-	delete_site_option( $option );
+foreach ( $ledger_options as $ledger_option ) {
+	delete_option( $ledger_option );
+	delete_site_option( $ledger_option );
 }
 
-// Transients created under the `ledger_` namespace.
+// Transients created under the `ledger_` namespace. A direct query is the only
+// way to bulk-delete by name prefix; object-cache helpers do not apply during
+// uninstall.
+// phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching
 $wpdb->query(
 	"DELETE FROM {$wpdb->options}
 	 WHERE option_name LIKE '\_transient\_ledger\_%'
@@ -33,6 +36,7 @@ $wpdb->query(
 );
 
 if ( is_multisite() ) {
+	// phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching
 	$wpdb->query(
 		"DELETE FROM {$wpdb->sitemeta}
 		 WHERE meta_key LIKE '\_site\_transient\_ledger\_%'

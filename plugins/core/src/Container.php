@@ -36,8 +36,8 @@ final class Container {
 	/**
 	 * Register a factory for an id. Last registration wins.
 	 *
-	 * @param string                       $id      Service id.
-	 * @param callable(Container): mixed    $factory Factory closure.
+	 * @param string                     $id      Service id.
+	 * @param callable(Container): mixed $factory Factory closure.
 	 */
 	public function set( string $id, callable $factory ): void {
 		$this->factories[ $id ] = $factory;
@@ -67,7 +67,7 @@ final class Container {
 
 		if ( ! isset( $this->factories[ $id ] ) ) {
 			throw new \OutOfBoundsException(
-				sprintf( 'Ledger container: no service registered for "%s".', $id )
+				esc_html( sprintf( 'Ledger container: no service registered for "%s".', $id ) )
 			);
 		}
 

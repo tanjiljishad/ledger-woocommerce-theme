@@ -20,6 +20,8 @@ final class Requirements {
 
 	/**
 	 * Human-readable label for the plugin being checked.
+	 *
+	 * @var string
 	 */
 	private string $label;
 
@@ -38,8 +40,10 @@ final class Requirements {
 	private array $failures = array();
 
 	/**
-	 * @param string                                                                 $label       Plugin label.
-	 * @param array{php?: string, wp?: string, plugins?: array<string, string>}       $constraints Constraints.
+	 * Record the label and constraints to check later.
+	 *
+	 * @param string                                                            $label       Plugin label.
+	 * @param array{php?: string, wp?: string, plugins?: array<string, string>} $constraints Constraints.
 	 */
 	public function __construct( string $label, array $constraints ) {
 		$this->label       = $label;
@@ -85,6 +89,8 @@ final class Requirements {
 
 	/**
 	 * Whether a plugin (by `dir/file.php`) is active, network included.
+	 *
+	 * @param string $plugin_path Plugin file path relative to the plugins dir.
 	 */
 	private function plugin_active( string $plugin_path ): bool {
 		if ( ! function_exists( 'is_plugin_active' ) ) {
@@ -108,18 +114,15 @@ final class Requirements {
 		add_action(
 			'admin_notices',
 			static function () use ( $failures, $label ): void {
-				printf(
-					'<div class="notice notice-error"><p><strong>%s</strong> %s:</p><ul style="list-style:disc;margin-left:1.5em">%s</ul></div>',
-					esc_html( $label ),
-					esc_html__( 'is inactive', 'ledger' ),
-					implode(
-						'',
-						array_map(
-							static fn ( string $msg ): string => '<li>' . esc_html( $msg ) . '</li>',
-							$failures
-						)
-					)
-				);
+				echo '<div class="notice notice-error"><p><strong>';
+				echo esc_html( $label );
+				echo '</strong> ';
+				echo esc_html__( 'is inactive', 'ledger' );
+				echo ':</p><ul style="list-style:disc;margin-left:1.5em">';
+				foreach ( $failures as $msg ) {
+					echo '<li>' . esc_html( $msg ) . '</li>';
+				}
+				echo '</ul></div>';
 			}
 		);
 	}

@@ -59,7 +59,7 @@ add_action(
 	static function (): void {
 		register_block_pattern_category(
 			'ledger',
-			array( 'label' => __( 'Ledger', 'ledger-flagship' ) )
+			array( 'label' => __( 'Ledger', 'ledger' ) )
 		);
 	}
 );

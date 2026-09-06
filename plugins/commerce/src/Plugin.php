@@ -20,22 +20,38 @@ use Ledger\Core\Container;
  */
 final class Plugin {
 
+	/**
+	 * Sole instance.
+	 *
+	 * @var self|null
+	 */
 	private static ?self $instance = null;
 
+	/**
+	 * Whether boot() has already run.
+	 *
+	 * @var bool
+	 */
 	private bool $booted = false;
 
+	/**
+	 * Retrieve the singleton instance.
+	 */
 	public static function instance(): self {
 		return self::$instance ??= new self();
 	}
 
+	/**
+	 * Wire the plugin's hooks. Safe to call more than once.
+	 */
 	public function boot(): void {
 		if ( $this->booted ) {
 			return;
 		}
 		$this->booted = true;
 
-		/** @var Container|null $container */
-		$container = apply_filters( 'ledger/container', null );
+		// Core shares its container through this filter; null when Core is inactive.
+		$container = apply_filters( 'ledger_container', null );
 
 		if ( $container instanceof Container ) {
 			$container->set( 'commerce.version', static fn (): string => VERSION );
@@ -44,6 +60,6 @@ final class Plugin {
 		/**
 		 * Fires once Ledger Commerce has booted with WooCommerce available.
 		 */
-		do_action( 'ledger/commerce/booted' );
+		do_action( 'ledger_commerce_booted' );
 	}
 }

@@ -13,24 +13,48 @@ defined( 'ABSPATH' ) || exit;
 
 /**
  * Owns the shared container and exposes it to the rest of the suite through
- * the `ledger/container` filter, so blocks and commerce never `new` it.
+ * the `ledger_container` filter, so blocks and commerce never `new` it.
  */
 final class Plugin {
 
+	/**
+	 * Sole instance.
+	 *
+	 * @var self|null
+	 */
 	private static ?self $instance = null;
 
+	/**
+	 * The shared service container.
+	 *
+	 * @var Container
+	 */
 	private Container $container;
 
+	/**
+	 * Whether boot() has already run.
+	 *
+	 * @var bool
+	 */
 	private bool $booted = false;
 
+	/**
+	 * Build the plugin with a fresh container.
+	 */
 	private function __construct() {
 		$this->container = new Container();
 	}
 
+	/**
+	 * Retrieve the singleton instance.
+	 */
 	public static function instance(): self {
 		return self::$instance ??= new self();
 	}
 
+	/**
+	 * The shared service container.
+	 */
 	public function container(): Container {
 		return $this->container;
 	}
@@ -51,7 +75,7 @@ final class Plugin {
 		 *
 		 * @param Container $container The shared service container.
 		 */
-		add_filter( 'ledger/container', fn (): Container => $this->container, 0 );
+		add_filter( 'ledger_container', fn (): Container => $this->container, 0 );
 
 		load_plugin_textdomain( 'ledger', false, dirname( plugin_basename( PLUGIN_FILE ) ) . '/languages' );
 
@@ -60,6 +84,6 @@ final class Plugin {
 		 *
 		 * @param Container $container The shared service container.
 		 */
-		do_action( 'ledger/core/booted', $this->container );
+		do_action( 'ledger_core_booted', $this->container );
 	}
 }

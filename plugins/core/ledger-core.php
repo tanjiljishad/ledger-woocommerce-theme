@@ -59,7 +59,14 @@ register_activation_hook(
 	__FILE__,
 	static function (): void {
 		require_once __DIR__ . '/src/Requirements.php';
-		( new Requirements( 'Ledger Core', array( 'php' => '8.2', 'wp' => '6.6' ) ) )->halt_activation_if_unmet();
+		$requirements = new Requirements(
+			'Ledger Core',
+			array(
+				'php' => '8.2',
+				'wp'  => '6.6',
+			)
+		);
+		$requirements->halt_activation_if_unmet();
 		update_option( 'ledger_core_activated_at', time(), false );
 		flush_rewrite_rules();
 	}
