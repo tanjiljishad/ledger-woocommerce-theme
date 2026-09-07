@@ -13,11 +13,14 @@ defined( 'ABSPATH' ) || exit;
 
 /**
  * The one place every Ledger plugin declares the option and transient keys it
- * writes. Each plugin calls `register()` from its `boot()` (and, where it
- * persists on activation, from its activation hook). The keys accumulate in a
- * single non-autoloaded option, `ledger_persisted_state`, so uninstall can
- * remove exactly what the suite created without a `LIKE 'ledger_%'` scan of
- * the options table.
+ * writes. Keys accumulate in a single non-autoloaded option,
+ * `ledger_persisted_state`, so uninstall can remove exactly what the suite
+ * created without a `LIKE 'ledger_%'` scan of the options table.
+ *
+ * `ledger_persisted_state` is touched only on activation, on a version-gated
+ * `admin_init` upgrade check, and on uninstall — never on a normal request.
+ * `read()` asserts that with `_doing_it_wrong()` if it is ever called outside
+ * one of those contexts.
  *
  * From Phase 1 on, a plugin that stores anything registers it here or it does
  * not get cleaned up. That is deliberate: unregistered state is a bug.
@@ -30,14 +33,15 @@ final class Persisted_State {
 	public const OPTION = 'ledger_persisted_state';
 
 	/**
-	 * Add keys to the registry. Idempotent, and writes only when the stored
-	 * set actually changes, so steady-state requests cost one `get_option()`.
+	 * Add keys to the registry. Idempotent; writes only when the stored set
+	 * actually changes. Call from an activation hook or a version-gated
+	 * `admin_init` upgrade check — never from a normal request path.
 	 *
 	 * @param string[] $options    Option keys the caller persists.
 	 * @param string[] $transients Transient keys the caller persists.
 	 */
 	public static function register( array $options = array(), array $transients = array() ): void {
-		$current = self::keys();
+		$current = self::read();
 
 		$next_options    = self::merge( $current['options'], $options );
 		$next_transients = self::merge( $current['transients'], $transients );
@@ -57,12 +61,23 @@ final class Persisted_State {
 	}
 
 	/**
-	 * The registered keys, always well-formed even if the option is missing or
-	 * has been corrupted by hand.
+	 * Read and normalise the registry. Always returns a well-formed shape even
+	 * if the option is missing or has been corrupted by hand.
+	 *
+	 * Asserts it is not being called on a normal request: the registry is for
+	 * activation, the `admin_init` upgrade check, and uninstall only.
 	 *
 	 * @return array{options: list<string>, transients: list<string>}
 	 */
-	public static function keys(): array {
+	private static function read(): array {
+		if ( ! self::write_context() ) {
+			_doing_it_wrong(
+				__METHOD__,
+				'ledger_persisted_state is read on activation, upgrade, and uninstall only, never on a normal request.',
+				'0.1.0'
+			);
+		}
+
 		$raw = get_option( self::OPTION );
 
 		$options    = array();
@@ -88,7 +103,7 @@ final class Persisted_State {
 	 * registry option itself. Called from `Ledger Core`'s `uninstall.php`.
 	 */
 	public static function purge(): void {
-		$keys = self::keys();
+		$keys = self::read();
 
 		foreach ( $keys['options'] as $key ) {
 			delete_option( $key );
@@ -102,6 +117,22 @@ final class Persisted_State {
 
 		delete_option( self::OPTION );
 		delete_site_option( self::OPTION );
+	}
+
+	/**
+	 * Whether the current request is one where writing persisted state is
+	 * expected: uninstall, WP-CLI, an install/activation pass, or any
+	 * admin-side request (where the activation hook and `admin_init` upgrade
+	 * check run). A plain front-end request is none of these.
+	 *
+	 * @return bool
+	 */
+	private static function write_context(): bool {
+		if ( defined( 'WP_UNINSTALL_PLUGIN' ) || defined( 'WP_CLI' ) ) {
+			return true;
+		}
+
+		return wp_installing() || is_admin();
 	}
 
 	/**

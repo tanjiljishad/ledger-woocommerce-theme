@@ -25,6 +25,9 @@ defined( 'ABSPATH' ) || exit;
 const VERSION     = '0.1.0';
 const PLUGIN_FILE = __FILE__;
 
+/** Option keys this plugin persists. Declared to Persisted_State on activation and version change. */
+const PERSISTED_OPTIONS = array( 'ledger_commerce_settings' );
+
 require_once __DIR__ . '/src/Plugin.php';
 
 add_action(
@@ -76,9 +79,30 @@ add_action(
 		);
 
 		Plugin::instance()->boot();
+
+		// Sync persisted keys on version change. Admin-only, version-gated.
+		add_action(
+			'admin_init',
+			static function (): void {
+				if ( VERSION === get_option( 'ledger_commerce_version' ) ) {
+					return;
+				}
+				\Ledger\Core\Persisted_State::register( PERSISTED_OPTIONS );
+				update_option( 'ledger_commerce_version', VERSION, true );
+			}
+		);
 	},
 	20
 );
 
-register_activation_hook( __FILE__, static fn () => flush_rewrite_rules() );
+register_activation_hook(
+	__FILE__,
+	static function (): void {
+		if ( class_exists( \Ledger\Core\Persisted_State::class ) ) {
+			\Ledger\Core\Persisted_State::register( PERSISTED_OPTIONS );
+		}
+		update_option( 'ledger_commerce_version', VERSION, true );
+		flush_rewrite_rules();
+	}
+);
 register_deactivation_hook( __FILE__, static fn () => flush_rewrite_rules() );

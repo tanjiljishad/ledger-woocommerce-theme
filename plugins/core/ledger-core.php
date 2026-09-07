@@ -26,6 +26,9 @@ defined( 'ABSPATH' ) || exit;
 const VERSION     = '0.1.0';
 const PLUGIN_FILE = __FILE__;
 
+/** Option keys this plugin persists. Declared to Persisted_State on activation and version change. */
+const PERSISTED_OPTIONS = array( 'ledger_core_activated_at', 'ledger_core_settings' );
+
 require_once __DIR__ . '/src/Container.php';
 require_once __DIR__ . '/src/Persisted_State.php';
 require_once __DIR__ . '/src/Requirements.php';
@@ -52,6 +55,23 @@ add_action(
 		}
 
 		Plugin::instance()->boot();
+
+		/*
+		 * Keep the persisted-key registry current when the plugin version
+		 * changes, so a release that adds keys needs no manual re-activation.
+		 * Admin-only and version-gated (`ledger_core_version` is autoloaded),
+		 * so a normal request never touches `ledger_persisted_state`.
+		 */
+		add_action(
+			'admin_init',
+			static function (): void {
+				if ( VERSION === get_option( 'ledger_core_version' ) ) {
+					return;
+				}
+				Persisted_State::register( PERSISTED_OPTIONS );
+				update_option( 'ledger_core_version', VERSION, true );
+			}
+		);
 	},
 	5
 );
@@ -69,8 +89,9 @@ register_activation_hook(
 			)
 		);
 		$requirements->halt_activation_if_unmet();
-		Persisted_State::register( array( 'ledger_core_activated_at', 'ledger_core_settings' ) );
+		Persisted_State::register( PERSISTED_OPTIONS );
 		update_option( 'ledger_core_activated_at', time(), false );
+		update_option( 'ledger_core_version', VERSION, true );
 		flush_rewrite_rules();
 	}
 );

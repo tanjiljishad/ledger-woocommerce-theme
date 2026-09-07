@@ -11,8 +11,6 @@ namespace Ledger\Blocks;
 
 defined( 'ABSPATH' ) || exit;
 
-use Ledger\Core\Persisted_State;
-
 /**
  * Registers block types from the build directory. No blocks ship in Phase 0 —
  * this only proves the wiring, the container hand-off, and asset paths.
@@ -48,8 +46,6 @@ final class Plugin {
 			return;
 		}
 		$this->booted = true;
-
-		Persisted_State::register( array( 'ledger_blocks_settings' ) );
 
 		/*
 		 * Core shares its container through the `ledger_container` filter.
