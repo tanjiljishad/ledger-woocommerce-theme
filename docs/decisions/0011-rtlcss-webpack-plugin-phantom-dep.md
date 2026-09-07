@@ -61,7 +61,8 @@ Record the diagnosis; do not carry a fix in Phase 0.
 
 `pnpm run build` and `pnpm run size` are removed from the `perf` job (there is
 nothing to build or weigh yet — `blocks`/`commerce` have no `src/`), so the
-breakage is off the critical path. `.size-limit.json` is an explicit empty set.
+breakage is off the critical path. `size-limit` and `.size-limit.json` are
+removed entirely — see [`../phase-2-checklist.md`](../phase-2-checklist.md).
 
 When the first block ships (Phase 2) and `wp-scripts build` must run, apply the
 **smallest** fix that works, in this order of preference:

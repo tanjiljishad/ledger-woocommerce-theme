@@ -5,7 +5,9 @@
  *   2. copies src/style.css -> build/style.css (whitespace-collapsed)
  *
  * Swap in a real pipeline (Lightning CSS / esbuild) when the theme grows past
- * a single stylesheet. The size budget in .size-limit.json applies either way.
+ * a single stylesheet. The size budget in docs/performance-budget.md applies
+ * either way (its `size-limit` enforcement returns in Phase 2 — see
+ * docs/phase-2-checklist.md).
  */
 
 import { mkdirSync, readFileSync, writeFileSync, copyFileSync } from 'node:fs';

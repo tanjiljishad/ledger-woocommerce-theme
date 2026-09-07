@@ -48,9 +48,9 @@ jobs:
 
       # `pnpm run build` + `pnpm run size` were removed here. Phase 0 ships no
       # block or theme JS/CSS, so there is nothing to bundle or weigh:
-      # `wp-scripts build` fails on empty plugins and `.size-limit.json` is an
-      # explicit empty set. Both steps return when the first block ships
-      # (Phase 2), together with real `.size-limit.json` budgets.
+      # `wp-scripts build` fails on empty plugins (ADR 0011) and `size-limit`
+      # was removed rather than left half-configured. Both return when the
+      # first block ships (Phase 2) — see docs/phase-2-checklist.md.
 
       - name: Cache Playwright browsers
         uses: actions/cache@v4
@@ -60,7 +60,24 @@ jobs:
       - name: Install Playwright browsers
         run: pnpm exec playwright install --with-deps
 
-      - run: pnpm wp-env start
+      - name: Start wp-env
+        run: pnpm wp-env start --debug
+      - name: wp-env diagnostics on failure
+        if: failure()
+        run: |
+          echo "::group::wp-env logs (all, no-watch)"
+          pnpm wp-env logs all --no-watch || true
+          echo "::endgroup::"
+          echo "::group::docker ps -a"
+          docker ps -a || true
+          echo "::endgroup::"
+          echo "::group::docker compose ls"
+          docker compose ls || true
+          echo "::endgroup::"
+          echo "::group::wp-env home contents (~/.wp-env and ~/wp-env)"
+          ls -laR ~/.wp-env 2>/dev/null || true
+          ls -laR ~/wp-env 2>/dev/null || true
+          echo "::endgroup::"
 
       # The seed snapshot (tools/seed/snapshot/{shop.sql,uploads.tar.gz}) is
       # generated out of band by `pnpm run seed:generate && pnpm run seed:export`

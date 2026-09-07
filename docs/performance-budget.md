@@ -22,8 +22,14 @@ superseding 0006 with benchmark data showing the new value is still competitive.
 
 ### Per-entry bundle budgets (gzipped)
 
-Enforced by `size-limit` (`.size-limit.json`). They sum to the Lighthouse
-transfer thresholds with headroom:
+> **Not enforced in Phase 0.** There is no block or theme JS/CSS to weigh yet,
+> so `size-limit`, `.size-limit.json`, and the `perf` job's `size` step were
+> removed rather than left as an empty config that errors on invocation. They
+> return with the first block — see [`phase-2-checklist.md`](phase-2-checklist.md).
+> The Lighthouse `resource-summary` transfer caps (60 KB CSS / 40 KB JS above)
+> stay enforced throughout.
+
+They sum to the Lighthouse transfer thresholds with headroom:
 
 | Entry | Budget |
 | --- | ---: |
@@ -41,8 +47,9 @@ transfer thresholds with headroom:
 
 1. **Static job** (`.github/workflows/ci.yml` → `static`): PHPCS, PHPStan,
    ESLint, `tsc`, token snapshot + `tokens:check`. Target < 3 min.
-2. **Perf job** (`perf`, needs `static`): build → `size-limit` → wp-env up →
-   restore seed snapshot → Lighthouse CI (3 runs/URL) → Playwright.
+2. **Perf job** (`perf`, needs `static`): wp-env up → restore seed snapshot →
+   Lighthouse CI (3 runs/URL) → Playwright. `build` and `size-limit` rejoin
+   this chain in Phase 2 (see `phase-2-checklist.md`).
 3. **Branch protection** on `main`: every check required, no direct pushes.
 
 ## Notes

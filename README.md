@@ -47,7 +47,6 @@ pnpm wp-env start          # WordPress at http://localhost:8889  (wp-admin < 2 m
 | `composer run phpcs` / `composer run phpstan` | PHP lint / static analysis (level 8) |
 | `pnpm run seed:generate` | build a 5,000-product shop (WP-CLI) |
 | `pnpm run reset` | wipe local, restore snapshot, working shop in < 30s |
-| `pnpm run size` | per-entry bundle budgets |
 | `pnpm exec playwright test` | no-jQuery + smoke E2E |
 | `pnpm run lhci` | Lighthouse CI against the budget |
 

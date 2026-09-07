@@ -68,7 +68,7 @@ from.
 | 6.1 | Static analysis job | ✅ | `.github/workflows/ci.yml` → `static`: PHPCS, PHPStan, ESLint, `tsc` as distinct steps + token check/tests. |
 | 6.2 | Playwright harness | ✅ | `playwright.config.ts` (targets `:8889`), `tests/e2e/no-jquery.spec.ts` (appendix spec), `tests/e2e/smoke.spec.ts` (shop/product/cart/account, no console errors). |
 | 6.3 | Lighthouse CI + assertions | ✅ | `lighthouserc.js` — appendix config verbatim. `tools/seed/lhci-url.mjs` swaps `SEED_ID` for a real product ID in CI. Run needs wp-env. |
-| 6.4 | Bundle size limits | ✅ | `.size-limit.json` — per-entry gzipped budgets summing to 60 KB CSS / 40 KB JS. |
+| 6.4 | Bundle size limits | 🟡 | Budgets (60 KB CSS / 40 KB JS, per-entry table in `docs/performance-budget.md`) are defined but `size-limit` / `.size-limit.json` / the `perf` `size` step were removed until there is a bundle to weigh — see `docs/phase-2-checklist.md`. Lighthouse `resource-summary` transfer caps still enforce the totals. |
 | 6.5 | Branch protection | ⬜ | GitHub setting. Push the repo, then require every check on `main`, no direct pushes. |
 | 6.6 | Prove the gate fails | ⬜ | Commit a 200 KB junk stylesheet + a 400 ms main-thread blocker, watch CI go red on the byte + TBT assertions, screenshot, revert. Must be done once. |
 | 6.7 | `docs/performance-budget.md` | ✅ | Written — numbers, enforcement layer per metric, and the never-relaxed rule (ADR-0006). |

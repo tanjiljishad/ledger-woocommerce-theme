@@ -17,7 +17,6 @@
     "typecheck": "tsc -b --pretty",
     "test:e2e": "playwright test",
     "lhci": "lhci autorun",
-    "size": "size-limit",
     "seed:generate": "wp-env run cli wp ledger seed generate --count=5000",
     "seed:export": "node tools/seed/export-snapshot.mjs",
     "seed:restore": "node tools/seed/restore-snapshot.mjs",
@@ -26,13 +25,11 @@
   "devDependencies": {
     "@lhci/cli": "0.14.0",
     "@playwright/test": "1.48.2",
-    "@size-limit/file": "11.1.6",
     "@wordpress/env": "11.14.0",
     "@wordpress/eslint-plugin": "21.5.0",
     "@wordpress/prettier-config": "4.13.0",
     "eslint": "8.57.1",
     "prettier": "3.3.3",
-    "size-limit": "11.1.6",
     "typescript": "5.6.3"
   }
 }
