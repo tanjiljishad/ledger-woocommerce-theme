@@ -143,10 +143,11 @@ final class Persisted_State {
 	}
 
 	/**
-	 * Whether the current request is one where writing persisted state is
-	 * expected: uninstall, WP-CLI, an install/activation pass, or any
-	 * admin-side request (where the activation hook and `admin_init` upgrade
-	 * check run). A plain front-end request is none of these.
+	 * Whether the current request is one where touching persisted state is
+	 * expected: uninstall, WP-CLI, a core install/upgrade pass, the
+	 * `admin_init` version check, or a plugin activation. Deliberately *not*
+	 * `is_admin()` — that is also true for `admin-ajax.php`, a hot path on a
+	 * WooCommerce store, and every other admin screen.
 	 *
 	 * @return bool
 	 */
@@ -155,7 +156,14 @@ final class Persisted_State {
 			return true;
 		}
 
-		return wp_installing() || is_admin();
+		if ( wp_installing() ) {
+			return true;
+		}
+
+		// `activate_plugin` fires before any `activate_{$plugin}` callback, so
+		// this is true for the whole activation request, including keys routed
+		// through the `ledger_register_persisted_state` action.
+		return doing_action( 'admin_init' ) || did_action( 'activate_plugin' ) > 0;
 	}
 
 	/**

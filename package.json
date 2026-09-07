@@ -11,7 +11,7 @@
   "scripts": {
     "tokens:build": "node packages/tokens/src/compile.mjs",
     "tokens:check": "node packages/tokens/src/compile.mjs --check",
-    "tokens:test": "node --test \"packages/tokens/test/**/*.test.mjs\"",
+    "tokens:test": "pnpm --filter @ledger/tokens run test",
     "build": "pnpm run tokens:build && pnpm -r --if-present run build",
     "lint": "eslint . --max-warnings 0",
     "typecheck": "tsc -b --pretty",

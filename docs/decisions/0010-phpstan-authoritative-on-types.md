@@ -55,9 +55,15 @@ types are correct and complete.
 
 ### Negative / accepted costs
 
-- PHPCS no longer catches a `@param string $x` sitting above an `array $x` hint.
-  In practice PHPStan flags that (the body will misuse `$x`), so the loss is
-  small.
+- **Nothing now checks a `@param` type *string* against its PHP parameter type
+  hint.** `IncorrectTypeHint` was the only rule doing that. PHPStan still
+  rejects an outright contradiction (`@param string $x` over `array $x`) via
+  its native-vs-PHPDoc compatibility check, and still requires the PHPDoc type
+  to be correct for how `$x` is used — but a merely loose or redundant
+  annotation that does not contradict the hint (e.g. `@param iterable $x` over
+  `array $x`, or a `@param` whose hint could have been narrower) is no longer
+  flagged by either tool. Accepted: the value of the precise generics
+  outweighs this.
 - One more deviation from stock `WordPress` standard to explain to a
   contributor — this ADR is that explanation.
 
