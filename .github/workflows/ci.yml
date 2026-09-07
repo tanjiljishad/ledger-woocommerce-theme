@@ -45,11 +45,36 @@ jobs:
           node-version: 20
           cache: pnpm
       - run: pnpm install --frozen-lockfile
-      - run: pnpm run build
-      - name: Bundle size budgets
-        run: pnpm run size
+
+      # `pnpm run build` + `pnpm run size` were removed here. Phase 0 ships no
+      # block or theme JS/CSS, so there is nothing to bundle or weigh:
+      # `wp-scripts build` fails on empty plugins and `.size-limit.json` is an
+      # explicit empty set. Both steps return when the first block ships
+      # (Phase 2), together with real `.size-limit.json` budgets.
+
+      - name: Cache Playwright browsers
+        uses: actions/cache@v4
+        with:
+          path: ~/.cache/ms-playwright
+          key: playwright-${{ runner.os }}-${{ hashFiles('pnpm-lock.yaml') }}
+      - name: Install Playwright browsers
+        run: pnpm exec playwright install --with-deps
+
       - run: pnpm wp-env start
-      - name: Restore seed snapshot (cached SQL dump, not a live generate)
+
+      # The seed snapshot (tools/seed/snapshot/{shop.sql,uploads.tar.gz}) is
+      # generated out of band by `pnpm run seed:generate && pnpm run seed:export`
+      # against a local Docker wp-env (tasks 5.2 / 5.3) and cached under this
+      # key. Restore-only: nothing in CI produces it yet. On a cache miss the
+      # directory stays empty and the next step fails with restore-snapshot.mjs's
+      # actionable "No snapshot at ... run seed:generate then seed:export" message
+      # rather than a silent nothing.
+      - name: Restore seed snapshot from cache
+        uses: actions/cache/restore@v4
+        with:
+          path: tools/seed/snapshot
+          key: seed-snapshot-v1-${{ hashFiles('tools/seed/ledger-seed.php', 'tools/seed/src/**/*.php', 'tools/seed/export-snapshot.mjs') }}
+      - name: Load seed snapshot into wp-env
         run: pnpm run seed:restore
       - name: Point Lighthouse at a real product page
         run: node tools/seed/lhci-url.mjs
