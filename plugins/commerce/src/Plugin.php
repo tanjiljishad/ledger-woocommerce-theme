@@ -12,6 +12,7 @@ namespace Ledger\Commerce;
 defined( 'ABSPATH' ) || exit;
 
 use Ledger\Core\Container;
+use Ledger\Core\Persisted_State;
 
 /**
  * Holds WooCommerce-facing services. Phase 0 registers nothing functional;
@@ -49,6 +50,8 @@ final class Plugin {
 			return;
 		}
 		$this->booted = true;
+
+		Persisted_State::register( array( 'ledger_commerce_settings' ) );
 
 		// Core shares its container through this filter; null when Core is inactive.
 		$container = apply_filters( 'ledger_container', null );

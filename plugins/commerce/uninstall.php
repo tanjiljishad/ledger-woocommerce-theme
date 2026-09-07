@@ -2,8 +2,9 @@
 /**
  * Uninstall cleanup for Ledger Commerce.
  *
- * Removes only Ledger's own options. WooCommerce data, products, and orders
- * are never touched here.
+ * Keys here are also declared to `Ledger\Core\Persisted_State` at boot. Uninstall
+ * runs with no other plugin loaded, so this file repeats its own keys and deletes
+ * only those. WooCommerce data, products, and orders are never touched here.
  *
  * @package Ledger\Commerce
  */

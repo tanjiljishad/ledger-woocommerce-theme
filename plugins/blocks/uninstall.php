@@ -2,6 +2,10 @@
 /**
  * Uninstall cleanup for Ledger Blocks.
  *
+ * Keys here are also declared to `Ledger\Core\Persisted_State` at boot. Uninstall
+ * runs with no other plugin loaded, so this file repeats its own keys and deletes
+ * only those — removing Blocks alone must not touch the rest of the suite.
+ *
  * @package Ledger\Blocks
  */
 

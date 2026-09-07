@@ -27,6 +27,7 @@ const VERSION     = '0.1.0';
 const PLUGIN_FILE = __FILE__;
 
 require_once __DIR__ . '/src/Container.php';
+require_once __DIR__ . '/src/Persisted_State.php';
 require_once __DIR__ . '/src/Requirements.php';
 require_once __DIR__ . '/src/Plugin.php';
 
@@ -59,6 +60,7 @@ register_activation_hook(
 	__FILE__,
 	static function (): void {
 		require_once __DIR__ . '/src/Requirements.php';
+		require_once __DIR__ . '/src/Persisted_State.php';
 		$requirements = new Requirements(
 			'Ledger Core',
 			array(
@@ -67,6 +69,7 @@ register_activation_hook(
 			)
 		);
 		$requirements->halt_activation_if_unmet();
+		Persisted_State::register( array( 'ledger_core_activated_at', 'ledger_core_settings' ) );
 		update_option( 'ledger_core_activated_at', time(), false );
 		flush_rewrite_rules();
 	}

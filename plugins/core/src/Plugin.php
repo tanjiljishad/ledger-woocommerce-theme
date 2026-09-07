@@ -68,6 +68,8 @@ final class Plugin {
 		}
 		$this->booted = true;
 
+		Persisted_State::register( array( 'ledger_core_activated_at', 'ledger_core_settings' ) );
+
 		$this->container->set( 'version', static fn (): string => VERSION );
 
 		/**
