@@ -26,7 +26,7 @@ reproduce exactly.
 
 ## Run: _not yet performed_
 
-Date: `YYYY-MM-DD` · Lighthouse version: `x.y.z` · WordPress: `6.8` · WooCommerce: `x.y`
+Date: `YYYY-MM-DD` · Lighthouse version: `x.y.z` · WordPress: `7.1` · WooCommerce: `x.y`
 
 ### Shop archive
 

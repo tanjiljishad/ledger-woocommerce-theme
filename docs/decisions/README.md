@@ -27,3 +27,4 @@ Rules:
 | [0009](0009-drop-hoist-false-from-npmrc.md) | Remove `hoist=false` from `.npmrc` | accepted |
 | [0010](0010-phpstan-authoritative-on-types.md) | PHPStan is authoritative on types; drop the PHPCS type-hint sniff | accepted |
 | [0011](0011-rtlcss-webpack-plugin-phantom-dep.md) | `rtlcss-webpack-plugin` phantom `@babel/runtime` dependency | accepted |
+| [0012](0012-retarget-wordpress-7.1.md) | Retarget to WordPress 7.1 | accepted |

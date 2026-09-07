@@ -112,7 +112,7 @@ One file, three outputs. Keep it flat and boring. Every value here becomes a CSS
 }
 .wp-env.json
 {
-  "core": "WordPress/WordPress#6.8",
+  "core": "WordPress/WordPress#7.1",
   "phpVersion": "8.2",
   "plugins": [
     "https://downloads.wordpress.org/plugin/woocommerce.zip",

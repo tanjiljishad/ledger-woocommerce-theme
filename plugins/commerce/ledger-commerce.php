@@ -3,7 +3,7 @@
  * Plugin Name:       Ledger Commerce
  * Description:        WooCommerce integration layer for the Ledger suite. Requires Ledger Core and WooCommerce.
  * Version:           0.1.0
- * Requires at least: 6.6
+ * Requires at least: 7.1
  * Requires PHP:      8.2
  * Requires Plugins:  ledger-core, woocommerce
  * Author:            Tanjil
@@ -51,7 +51,7 @@ add_action(
 			'Ledger Commerce',
 			array(
 				'php'     => '8.2',
-				'wp'      => '6.6',
+				'wp'      => '7.1',
 				'plugins' => array(
 					'ledger-core/ledger-core.php' => 'Ledger Core',
 					'woocommerce/woocommerce.php' => 'WooCommerce',

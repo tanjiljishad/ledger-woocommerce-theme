@@ -4,7 +4,7 @@
  * Plugin URI:        https://example.com/ledger
  * Description:        Shared service container and infrastructure for the Ledger suite.
  * Version:           0.1.0
- * Requires at least: 6.6
+ * Requires at least: 7.1
  * Requires PHP:      8.2
  * Author:            Tanjil
  * Text Domain:       ledger
@@ -53,7 +53,7 @@ add_action(
 			'Ledger Core',
 			array(
 				'php' => '8.2',
-				'wp'  => '6.6',
+				'wp'  => '7.1',
 			)
 		);
 
@@ -93,7 +93,7 @@ register_activation_hook(
 			'Ledger Core',
 			array(
 				'php' => '8.2',
-				'wp'  => '6.6',
+				'wp'  => '7.1',
 			)
 		);
 		$requirements->halt_activation_if_unmet();
