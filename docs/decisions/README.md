@@ -29,3 +29,4 @@ Rules:
 | [0011](0011-rtlcss-webpack-plugin-phantom-dep.md) | `rtlcss-webpack-plugin` phantom `@babel/runtime` dependency | accepted |
 | [0012](0012-retarget-wordpress-7.1.md) | Retarget to WordPress 7.1 | accepted |
 | [0013](0013-viewport-tokens-supersede-responsive-contract.md) | `viewport` tokens + `settings.viewport`; retire the custom responsive contract | accepted |
+| [0014](0014-deprecated-api-audit-2026-09.md) | Deprecated-API audit against WordPress 7.1 | accepted |
