@@ -22,6 +22,10 @@ defined( 'ABSPATH' ) || exit;
  * `read()` asserts that with `_doing_it_wrong()` if it is ever called outside
  * one of those contexts.
  *
+ * Blocks and Commerce declare their keys through the `ledger_register_persisted_state`
+ * action (see `register_from_hook()`), so they carry no compile-time dependency
+ * on this class. Core wires the listener in `ledger-core.php`.
+ *
  * From Phase 1 on, a plugin that stores anything registers it here or it does
  * not get cleaned up. That is deliberate: unregistered state is a bug.
  */
@@ -37,8 +41,10 @@ final class Persisted_State {
 	 * actually changes. Call from an activation hook or a version-gated
 	 * `admin_init` upgrade check — never from a normal request path.
 	 *
-	 * @param string[] $options    Option keys the caller persists.
-	 * @param string[] $transients Transient keys the caller persists.
+	 * Input is treated as untrusted: `merge()` keeps only non-empty strings.
+	 *
+	 * @param array<mixed> $options    Option keys the caller persists.
+	 * @param array<mixed> $transients Transient keys the caller persists.
 	 */
 	public static function register( array $options = array(), array $transients = array() ): void {
 		$current = self::read();
@@ -58,6 +64,23 @@ final class Persisted_State {
 			),
 			false
 		);
+	}
+
+	/**
+	 * Handler for the `ledger_register_persisted_state` action. Lets a plugin
+	 * declare its keys without referencing this class directly.
+	 *
+	 * @param mixed $keys Expected shape: array{options?: mixed[], transients?: mixed[]}.
+	 */
+	public static function register_from_hook( mixed $keys ): void {
+		if ( ! is_array( $keys ) ) {
+			return;
+		}
+
+		$options    = isset( $keys['options'] ) && is_array( $keys['options'] ) ? $keys['options'] : array();
+		$transients = isset( $keys['transients'] ) && is_array( $keys['transients'] ) ? $keys['transients'] : array();
+
+		self::register( $options, $transients );
 	}
 
 	/**
@@ -136,23 +159,26 @@ final class Persisted_State {
 	}
 
 	/**
-	 * Union a validated list with raw additions, keeping the result sorted and
-	 * duplicate-free so the change check in `register()` is order-independent.
-	 * Non-string and empty additions are dropped rather than trusted.
+	 * Combine two key lists into one: non-empty strings only, de-duplicated,
+	 * and sorted so the equality check in `register()` is order-independent.
+	 * Both inputs are treated as untrusted.
 	 *
-	 * @param string[]     $existing  Keys already stored and validated.
-	 * @param array<mixed> $additions Raw keys to validate and add.
+	 * @param array<mixed> $a First key list.
+	 * @param array<mixed> $b Second key list.
 	 * @return list<string>
 	 */
-	private static function merge( array $existing, array $additions ): array {
-		foreach ( $additions as $key ) {
-			if ( is_string( $key ) && '' !== $key && ! in_array( $key, $existing, true ) ) {
-				$existing[] = $key;
+	private static function merge( array $a, array $b ): array {
+		$unique = array();
+
+		foreach ( array_merge( array_values( $a ), array_values( $b ) ) as $key ) {
+			if ( is_string( $key ) && '' !== $key ) {
+				$unique[ $key ] = $key;
 			}
 		}
 
-		sort( $existing );
+		$unique = array_values( $unique );
+		sort( $unique );
 
-		return $existing;
+		return $unique;
 	}
 }

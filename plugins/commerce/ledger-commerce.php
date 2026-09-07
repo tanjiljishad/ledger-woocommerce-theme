@@ -87,7 +87,7 @@ add_action(
 				if ( VERSION === get_option( 'ledger_commerce_version' ) ) {
 					return;
 				}
-				\Ledger\Core\Persisted_State::register( PERSISTED_OPTIONS );
+				do_action( 'ledger_register_persisted_state', array( 'options' => PERSISTED_OPTIONS ) );
 				update_option( 'ledger_commerce_version', VERSION, true );
 			}
 		);
@@ -98,9 +98,7 @@ add_action(
 register_activation_hook(
 	__FILE__,
 	static function (): void {
-		if ( class_exists( \Ledger\Core\Persisted_State::class ) ) {
-			\Ledger\Core\Persisted_State::register( PERSISTED_OPTIONS );
-		}
+		do_action( 'ledger_register_persisted_state', array( 'options' => PERSISTED_OPTIONS ) );
 		update_option( 'ledger_commerce_version', VERSION, true );
 		flush_rewrite_rules();
 	}

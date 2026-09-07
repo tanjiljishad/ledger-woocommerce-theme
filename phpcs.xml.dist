@@ -24,6 +24,10 @@
 		<!-- PSR-4 file naming is enforced by Composer, not WPCS. -->
 		<exclude name="WordPress.Files.FileName.NotHyphenatedLowercase"/>
 		<exclude name="WordPress.Files.FileName.InvalidClassFileName"/>
+		<!-- Its legacy type reducer rejects generics (list<string>, array{...})
+		     and fights PHPStan's missingType.iterableValue. PHPStan owns types.
+		     See docs/decisions/0010-phpstan-authoritative-on-types.md -->
+		<exclude name="Squiz.Commenting.FunctionComment.IncorrectTypeHint"/>
 	</rule>
 
 	<rule ref="WordPress.NamingConventions.PrefixAllGlobals">

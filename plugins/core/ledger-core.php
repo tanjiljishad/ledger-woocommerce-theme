@@ -34,6 +34,14 @@ require_once __DIR__ . '/src/Persisted_State.php';
 require_once __DIR__ . '/src/Requirements.php';
 require_once __DIR__ . '/src/Plugin.php';
 
+/*
+ * Blocks and Commerce declare their persisted keys through this action instead
+ * of calling Persisted_State directly, so they never fatal when Core is absent.
+ * Registered at file scope so the listener exists before any activation hook or
+ * `admin_init` upgrade check fires.
+ */
+add_action( 'ledger_register_persisted_state', array( Persisted_State::class, 'register_from_hook' ) );
+
 /**
  * Boot the plugin once all plugins are loaded, but only if requirements pass.
  * A failed check degrades to an admin notice — never a fatal.
