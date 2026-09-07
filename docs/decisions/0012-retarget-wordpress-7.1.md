@@ -95,3 +95,23 @@ upside. Track latest stable; re-evaluate cadence at 7.2 (see Notes).
 - Follow-up: the WordPress 7.1 impact report (token compiler `settings.viewport`,
   Tabs block, SVG Icon API, Navigation font-size propagation) — revise the phase
   plan against it before building.
+
+### Plugin slug mismatch (fixed alongside the retarget)
+
+Retargeting let `wp-env start` reach plugin activation for the first time, which
+exposed a **real bug, not an env quirk**: `ledger-blocks` and `ledger-commerce`
+declare `Requires Plugins: ledger-core`, and their runtime `Requirements` check
+calls `is_plugin_active( 'ledger-core/ledger-core.php' )` — both keyed to the
+*shipped* slug `ledger-core`. But the monorepo directory is `plugins/core`, so
+`.wp-env.json`'s `./plugins/core` entry mounted and activated it as slug `core`.
+The dependency could never resolve in the dev environment, and the runtime check
+would have failed there too.
+
+Fix: `.wp-env.json` now `mappings` `./plugins/core` → `wp-content/plugins/ledger-core`
+(and `blocks`, `commerce` likewise) so container slugs match shipped slugs, and
+those three are removed from the top-level `plugins` array. Consequence: wp-env
+no longer auto-activates the Ledger plugins (mappings mount but do not activate);
+`woocommerce` and the dev-only `tools/seed` stay in `plugins`. Activate the
+Ledger plugins with `wp-env run cli wp plugin activate ledger-core ledger-blocks
+ledger-commerce`, or add a `lifecycleScripts.afterStart` if always-on is wanted.
+`tools/seed` keeps slug `seed` — it never ships and has no plugin dependency.

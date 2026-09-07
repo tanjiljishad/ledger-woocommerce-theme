@@ -3,9 +3,6 @@
   "phpVersion": "8.2",
   "plugins": [
     "https://downloads.wordpress.org/plugin/woocommerce.zip",
-    "./plugins/core",
-    "./plugins/blocks",
-    "./plugins/commerce",
     "./tools/seed"
   ],
   "themes": [ "./themes/flagship" ],
@@ -15,6 +12,9 @@
     "SCRIPT_DEBUG": true
   },
   "mappings": {
+    "wp-content/plugins/ledger-core": "./plugins/core",
+    "wp-content/plugins/ledger-blocks": "./plugins/blocks",
+    "wp-content/plugins/ledger-commerce": "./plugins/commerce",
     "wp-content/uploads": "./.wp-env/uploads"
   }
 }
