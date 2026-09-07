@@ -60,19 +60,17 @@ export const tokens = {
 		"slow": "320ms",
 		"ease": "cubic-bezier(.2,0,0,1)"
 	},
-	"breakpoint": {
-		"tablet": "768px",
-		"desktop": "1200px"
+	"viewport": {
+		"mobile": "480px",
+		"tablet": "782px"
+	},
+	"layout": {
+		"content": "768px",
+		"wide": "1200px"
 	}
 } as const;
 
 export type Tokens = typeof tokens;
-
-/** Token categories that re-scale at breakpoints. */
-export const responsiveCategories = ["space","size"] as const;
-
-/** Token categories with a single fixed value at every breakpoint. */
-export const fixedCategories = ["color","radius","shadow","motion","breakpoint"] as const;
 
 /** Flat block-attribute defaults: camelCased token path -> value. */
 export const controlDefaults = {
@@ -111,8 +109,10 @@ export const controlDefaults = {
 	motionBase: "200ms",
 	motionSlow: "320ms",
 	motionEase: "cubic-bezier(.2,0,0,1)",
-	breakpointTablet: "768px",
-	breakpointDesktop: "1200px",
+	viewportMobile: "480px",
+	viewportTablet: "782px",
+	layoutContent: "768px",
+	layoutWide: "1200px",
 } as const;
 
 export type ControlDefaults = typeof controlDefaults;

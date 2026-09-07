@@ -72,6 +72,10 @@
 			"contentSize": "768px",
 			"wideSize": "1200px"
 		},
+		"viewport": {
+			"mobile": "480px",
+			"tablet": "782px"
+		},
 		"color": {
 			"defaultPalette": false,
 			"defaultGradients": false,
@@ -244,10 +248,6 @@
 				"base": "200ms",
 				"slow": "320ms",
 				"ease": "cubic-bezier(.2,0,0,1)"
-			},
-			"breakpoint": {
-				"tablet": "768px",
-				"desktop": "1200px"
 			}
 		}
 	}

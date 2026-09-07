@@ -25,9 +25,9 @@ from.
 | # | Task | State | Notes |
 | --- | --- | :-: | --- |
 | 2.1 | `tokens.json` | ✅ | `packages/tokens/tokens.json` — appendix shape, verbatim. |
-| 2.2 | Responsive contract | ✅ | `docs/responsive-token-contract.md`; encoded as `responsiveCategories` / `fixedCategories` in generated `defaults.ts`. |
+| 2.2 | Responsive contract | ✅ | `docs/responsive-token-contract.md` — rewritten for WP 7.1: `viewport` tokens → `settings.viewport`, `@mobile`/`@tablet` variations on core block supports (ADR 0013, supersedes the 0005 contract). |
 | 2.3 | Token compiler | ✅ | `packages/tokens/src/compile.mjs` — emits `theme.settings.json`, `tokens.css`, `defaults.ts`, and merges `themes/flagship/theme.json`. Runs as `pnpm run tokens:build`. |
-| 2.4 | Snapshot-test the compiler | ✅ | Generated files committed; `tokens:check` fails on drift; `packages/tokens/test/compile.test.mjs` (7 tests) passes. |
+| 2.4 | Snapshot-test the compiler | ✅ | Generated files committed; `tokens:check` fails on drift; `packages/tokens/test/compile.test.mjs` (8 tests) passes. |
 
 ## W2 — Monorepo and tooling
 

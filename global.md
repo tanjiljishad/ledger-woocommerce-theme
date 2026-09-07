@@ -108,7 +108,8 @@ One file, three outputs. Keep it flat and boring. Every value here becomes a CSS
               "overlay":"0 8px 32px rgba(0,0,0,.14)" },
   "motion": { "fast":"120ms","base":"200ms","slow":"320ms",
               "ease":"cubic-bezier(.2,0,0,1)" },
-  "breakpoint": { "tablet":"768px","desktop":"1200px" }
+  "viewport": { "mobile":"480px","tablet":"782px" },
+  "layout": { "content":"768px","wide":"1200px" }
 }
 .wp-env.json
 {

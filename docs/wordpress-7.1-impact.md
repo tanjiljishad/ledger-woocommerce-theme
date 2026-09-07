@@ -219,17 +219,24 @@ it's the `render_block_core/navigation-*` filter route.
 - `__experimentalCloneSanitizedBlock` / `__experimentalSanitizeBlockAttributes`
   are stabilised (unprefixed); prefixed forms warn.
 
-## Recommended plan revisions (for discussion — not actioned)
+## Plan revisions — **applied 2026-09-07**
 
-1. **Token compiler / ADR 0005 / `responsive-token-contract.md`:** emit
-   `settings.viewport`; remap `tablet`/`desktop` → core `mobile`/`tablet`;
-   decide the fate of `RESPONSIVE_CATEGORIES`.
-2. **Block backlog:** remove "Tabs block"; add "`core/tabs` style + product
-   tabs pattern".
-3. **Icon Box block:** re-spec on the SVG Icon API; audit icon set for the
-   `<path>`/`<polygon>` + `fill`-only sanitiser limit.
-4. **Mega menu:** typography set explicitly; drop any reliance on Nav
-   font-size propagation.
-5. **Controls API (Phase 2):** prefer standard block supports so
-   responsive + state variations come for free.
-6. Confirm `theme.json` stays v3; no v4 migration needed for 7.1.
+1. **Token compiler / responsive contract** — done. `viewport` (`mobile` /
+   `tablet`) + `layout` (`content` / `wide`) token categories added, `breakpoint`
+   retired (not renamed — semantics differ), `settings.viewport` emitted,
+   `RESPONSIVE_CATEGORIES` / `responsiveCategories` deleted.
+   [ADR 0013](decisions/0013-viewport-tokens-supersede-responsive-contract.md)
+   supersedes the 0005 contract; `responsive-token-contract.md` rewritten.
+2. **Block backlog** — done. No `ledger/tabs`; `core/tabs` style + product-tabs
+   pattern. No per-block responsive-attribute schema. See
+   [`phase-2-backlog.md`](phase-2-backlog.md).
+3. **Icon Box** — re-spec + icon-set constraint recorded in
+   [`phase-2-backlog.md`](phase-2-backlog.md). No icon set is committed yet, so
+   the audit is a constraint on the choice, not a pass/fail on an existing set:
+   fill-only, single `<path>`/`<polygon>`, no `<g>`/stroke/gradient. Stroke sets
+   (Lucide/Feather/Tabler) are ruled out.
+4. **Mega menu** — Navigation font-size propagation change recorded in
+   [`phase-2-backlog.md`](phase-2-backlog.md).
+5. **Controls API** — rule recorded: Ledger blocks expose styling via standard
+   block supports so responsive + state variations come for free.
+6. **theme.json v3** — confirmed; 7.1 adds `viewport` additively, no v4.

@@ -41,7 +41,10 @@
 	--ledger-motion-base: 200ms;
 	--ledger-motion-slow: 320ms;
 	--ledger-motion-ease: cubic-bezier(.2,0,0,1);
-	/* breakpoint */
-	--ledger-breakpoint-tablet: 768px;
-	--ledger-breakpoint-desktop: 1200px;
+	/* viewport */
+	--ledger-viewport-mobile: 480px;
+	--ledger-viewport-tablet: 782px;
+	/* layout */
+	--ledger-layout-content: 768px;
+	--ledger-layout-wide: 1200px;
 }

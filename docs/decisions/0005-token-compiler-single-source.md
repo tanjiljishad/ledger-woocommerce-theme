@@ -1,6 +1,6 @@
 # ADR 0005 — `tokens.json` is the single source; three artefacts are generated
 
-- **Status:** accepted
+- **Status:** accepted (responsive contract superseded by [ADR-0013](0013-viewport-tokens-supersede-responsive-contract.md))
 - **Date:** 2026-09-06
 - **Deciders:** Tanjil
 

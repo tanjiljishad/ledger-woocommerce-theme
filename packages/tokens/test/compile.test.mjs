@@ -32,8 +32,8 @@ for (const [label, path] of Object.entries(outputPaths)) {
 test('css exposes one custom property per token leaf', () => {
 	const css = artefacts[outputPaths.css];
 	const declarations = [...css.matchAll(/--ledger-[\w-]+:/g)];
-	// 11 color + 8 space + 7 size + 3 radius + 2 shadow + 4 motion + 2 breakpoint
-	assert.equal(declarations.length, 37);
+	// 11 color + 8 space + 7 size + 3 radius + 2 shadow + 4 motion + 2 viewport + 2 layout
+	assert.equal(declarations.length, 39);
 });
 
 test('theme.settings.json is valid JSON with a non-empty palette', () => {
@@ -44,8 +44,18 @@ test('theme.settings.json is valid JSON with a non-empty palette', () => {
 	assert.equal(doc.settings.color.defaultPalette, false);
 });
 
+test('theme.settings.json emits settings.viewport (WP 7.1)', () => {
+	const doc = JSON.parse(artefacts[outputPaths.themeSettings]);
+	assert.deepEqual(doc.settings.viewport, {
+		mobile: '480px',
+		tablet: '782px',
+	});
+	// `breakpoint` is retired — must not reappear under custom.
+	assert.equal(doc.settings.custom.breakpoint, undefined);
+});
+
 test('defaults.ts pins the brand color', () => {
 	const ts = artefacts[outputPaths.defaults];
 	assert.match(ts, /colorBrand500: "#4B3FBE"/);
-	assert.match(ts, /responsiveCategories = \["space","size"\]/);
+	assert.match(ts, /viewportMobile: "480px"/);
 });
