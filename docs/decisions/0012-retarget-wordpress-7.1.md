@@ -109,9 +109,9 @@ would have failed there too.
 
 Fix: `.wp-env.json` now `mappings` `./plugins/core` → `wp-content/plugins/ledger-core`
 (and `blocks`, `commerce` likewise) so container slugs match shipped slugs, and
-those three are removed from the top-level `plugins` array. Consequence: wp-env
-no longer auto-activates the Ledger plugins (mappings mount but do not activate);
-`woocommerce` and the dev-only `tools/seed` stay in `plugins`. Activate the
-Ledger plugins with `wp-env run cli wp plugin activate ledger-core ledger-blocks
-ledger-commerce`, or add a `lifecycleScripts.afterStart` if always-on is wanted.
-`tools/seed` keeps slug `seed` — it never ships and has no plugin dependency.
+those three are removed from the top-level `plugins` array. `mappings` mount but
+do not activate, so a `lifecycleScripts.afterStart` runs
+`wp plugin activate ledger-core ledger-blocks ledger-commerce` after every
+`wp-env start` (idempotent — a re-run just reports "already activated").
+`woocommerce` and the dev-only `tools/seed` stay in `plugins`; `tools/seed`
+keeps slug `seed` — it never ships and has no plugin dependency.

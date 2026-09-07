@@ -16,5 +16,8 @@
     "wp-content/plugins/ledger-blocks": "./plugins/blocks",
     "wp-content/plugins/ledger-commerce": "./plugins/commerce",
     "wp-content/uploads": "./.wp-env/uploads"
+  },
+  "lifecycleScripts": {
+    "afterStart": "wp-env run cli wp plugin activate ledger-core ledger-blocks ledger-commerce"
   }
 }
