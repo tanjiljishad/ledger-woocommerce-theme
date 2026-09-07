@@ -63,15 +63,3 @@ add_action(
 		);
 	}
 );
-
-/**
- * Opt out of the core block library's inline SVG duotone filters and the
- * global-styles SVG, both render-blocking and unused by this theme.
- */
-add_action(
-	'after_setup_theme',
-	static function (): void {
-		remove_action( 'wp_body_open', 'wp_global_styles_render_svg_filters' );
-		add_action( 'wp_footer', 'wp_global_styles_render_svg_filters' );
-	}
-);
