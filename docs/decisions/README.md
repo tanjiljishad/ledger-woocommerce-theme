@@ -26,3 +26,4 @@ Rules:
 | [0008](0008-hook-names-underscore-not-slash.md) | Hook names use underscores, not slashes | accepted |
 | [0009](0009-drop-hoist-false-from-npmrc.md) | Remove `hoist=false` from `.npmrc` | accepted |
 | [0010](0010-phpstan-authoritative-on-types.md) | PHPStan is authoritative on types; drop the PHPCS type-hint sniff | accepted |
+| [0011](0011-rtlcss-webpack-plugin-phantom-dep.md) | `rtlcss-webpack-plugin` phantom `@babel/runtime` dependency | accepted |
