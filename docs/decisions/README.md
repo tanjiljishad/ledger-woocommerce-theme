@@ -23,3 +23,4 @@ Rules:
 | [0005](0005-token-compiler-single-source.md) | `tokens.json` is the single source; artefacts generated | accepted |
 | [0006](0006-performance-budget-is-a-hard-gate.md) | Performance budget is a hard gate, never relaxed | accepted |
 | [0007](0007-stock-prettier-not-wp-prettier.md) | Format with stock Prettier, not wp-prettier | accepted |
+| [0008](0008-hook-names-underscore-not-slash.md) | Hook names use underscores, not slashes | accepted |
