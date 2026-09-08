@@ -74,15 +74,34 @@ final class Seed_Command {
 		$term_ids = $this->ensure_categories();
 		$images   = new Image_Factory();
 
-		// Deterministic run: same seed => same catalogue.
-		mt_srand( 424242 );
+		// Each product's data is a pure function of its index (the RNG is
+		// reseeded per iteration below), so a re-run without --fresh resumes:
+		// finished products are skipped and only the missing tail is built.
+		// A crash mid-run is expected on slow bind-mounted setups (ADR 0015).
+		$resume = ! isset( $assoc_args['fresh'] );
 
 		$progress    = Utils\make_progress_bar( 'Seeding products', $count );
 		$variable_no = (int) round( $count * $var_ratio );
 
 		for ( $i = 0; $i < $count; $i++ ) {
+			// Deterministic per product: same index => same product, always.
+			mt_srand( 424242 + $i );
+
+			$sku         = sprintf( 'LDG-%05d', $i + 1 );
 			$is_variable = $i < $variable_no;
-			$title       = $this->product_title( $i );
+
+			if ( $resume && $this->is_complete( $sku, $is_variable, $do_images ) ) {
+				$progress->tick();
+				continue;
+			}
+			if ( $resume ) {
+				$stale = wc_get_product_id_by_sku( $sku );
+				if ( $stale > 0 ) {
+					$this->delete_product( (int) $stale );
+				}
+			}
+
+			$title = $this->product_title( $i );
 			$price       = $this->price();
 
 			$product = $is_variable
@@ -94,7 +113,7 @@ final class Seed_Command {
 			$product->set_catalog_visibility( 'visible' );
 			$product->set_description( $this->paragraph( $title ) );
 			$product->set_short_description( $this->sentence( $title ) );
-			$product->set_sku( sprintf( 'LDG-%05d', $i + 1 ) );
+			$product->set_sku( $sku );
 			$product->set_category_ids( $this->pick_terms( $term_ids ) );
 			$product->set_reviews_allowed( true );
 
@@ -178,6 +197,45 @@ final class Seed_Command {
 		}
 
 		WP_CLI::success( sprintf( 'Removed %d product posts.', count( $ids ) ) );
+	}
+
+	/**
+	 * Whether the product for this SKU already exists and is fully populated.
+	 * Used to resume an interrupted generate run without --fresh.
+	 */
+	private function is_complete( string $sku, bool $is_variable, bool $with_image ): bool {
+		$product_id = wc_get_product_id_by_sku( $sku );
+		if ( $product_id <= 0 ) {
+			return false;
+		}
+		if ( $with_image && ! has_post_thumbnail( $product_id ) ) {
+			return false;
+		}
+		if ( $is_variable ) {
+			$product = wc_get_product( $product_id );
+			if ( ! $product instanceof \WC_Product_Variable || count( $product->get_children() ) < 12 ) {
+				return false;
+			}
+		}
+		return true;
+	}
+
+	/**
+	 * Delete one product with its variations and its seeded featured image —
+	 * used to clear a half-written row before regenerating it on resume.
+	 */
+	private function delete_product( int $product_id ): void {
+		$product = wc_get_product( $product_id );
+		if ( $product instanceof \WC_Product ) {
+			foreach ( $product->get_children() as $child_id ) {
+				wp_delete_post( (int) $child_id, true );
+			}
+		}
+		$thumb_id = (int) get_post_thumbnail_id( $product_id );
+		if ( $thumb_id > 0 ) {
+			wp_delete_attachment( $thumb_id, true );
+		}
+		wp_delete_post( $product_id, true );
 	}
 
 	/**
