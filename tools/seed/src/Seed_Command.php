@@ -80,6 +80,17 @@ final class Seed_Command {
 		// A crash mid-run is expected on slow bind-mounted setups (ADR 0015).
 		$resume = ! isset( $assoc_args['fresh'] );
 
+		// Bulk-write hygiene. Without these, every product save recounts every
+		// touched category term and every review insert recounts comments, and
+		// WooCommerce schedules one Action Scheduler job *per variation* to
+		// refresh the product-attributes lookup table — on a 5k/40%-variable run
+		// that queue reached ~40k rows and a bare `wp` bootstrap hit 40 s
+		// (ADR 0015). Counts are recalculated once at the end; the lookup table
+		// is rebuilt in one pass via
+		// `wp wc tool run regenerate_product_attributes_lookup_table`.
+		wp_defer_term_counting( true );
+		wp_defer_comment_counting( true );
+
 		$progress    = Utils\make_progress_bar( 'Seeding products', $count );
 		$variable_no = (int) round( $count * $var_ratio );
 
@@ -146,13 +157,23 @@ final class Seed_Command {
 
 			if ( 0 === $i % 200 ) {
 				Utils\wp_clear_object_cache();
+				// Keep the Action Scheduler queue from ballooning: drop the
+				// per-variation attribute-lookup refresh jobs as we go.
+				if ( function_exists( 'as_unschedule_all_actions' ) ) {
+					as_unschedule_all_actions( 'woocommerce_run_product_attribute_lookup_update_callback' );
+				}
 			}
 			$progress->tick();
 		}
 
 		$progress->finish();
+
+		wp_defer_term_counting( false );
+		wp_defer_comment_counting( false );
 		wc_delete_product_transients();
+
 		WP_CLI::success( sprintf( 'Created %d products (%d variable, %d simple).', $count, $variable_no, $count - $variable_no ) );
+		WP_CLI::log( 'If core layered-nav filtering will be exercised, run: wp wc tool run regenerate_product_attributes_lookup_table' );
 	}
 
 	/**

@@ -7,40 +7,50 @@
 ## Context
 
 Task 5.2 runs `wp ledger seed generate --count=5000 --images` against wp-env.
-On this host (Windows 11 + Docker Desktop) the run measured **~2.4 s/product** on
-a 50-product calibration and drifted toward **~3.5 s/product** on longer runs —
-i.e. **~4–5 hours** for the full 5,000 — and it died twice partway, once when
+On this host (Windows 11 + Docker Desktop) a 50-product calibration measured
+**~2.4 s/product**, but the full run did not hold that rate — it decayed to tens
+of seconds and then ~150 s/product, and it also died twice partway (once when
 Docker Desktop stopped as the machine slept, leaving 585/5000 products with no
-way to continue.
+way to continue). Two separate problems: the decay, and no way to resume.
 
-### Why it is slow — cause not established
+### Why it slowed down — Action Scheduler queue pile-up
 
-The first diagnosis was that the bottleneck is the ~35,000–50,000 small
-image-file writes crossing the wp-env bind mount: every `--images` product
-writes ~9–11 files (the source JPEG plus every registered sub-size — WordPress
-`thumbnail` / `medium` / `medium_large` / `large` / `1536x1536` / `2048x2048`,
-and WooCommerce's `woocommerce_thumbnail` / `woocommerce_single` /
-`woocommerce_gallery_thumbnail`), and an isolated test does show the mount is
-~5× slower for small files (800 files: 11.8 s bind-mounted vs 2.4 s on the
-container overlay, ~15 ms vs ~3 ms each).
+Not the bind mount. A bare `wp option get` mid-run took **40 s**; the cause was
+**~38,000 pending Action Scheduler actions**, all
+`woocommerce_run_product_attribute_lookup_update_callback` — WooCommerce
+schedules one per variation to refresh the product-attributes lookup table, and
+nothing drains that queue during a CLI run (no web requests → no AS runner). As
+`wp_actionscheduler_actions` grew, every WP-CLI bootstrap (and so every
+`WC_Product::save()`) paid a growing scan cost. Cancelling the queue restored
+~6 s/product.
 
-**That diagnosis is wrong as stated — or at least unproven — and is recorded
-here as unsettled, not as the cause.** The `.wp-env.json` change meant to act on
-it (repointing the `wp-content/uploads` mapping to move uploads "off the bind
-mount") was reverted as ineffective: wp-env bind-mounts the *entire*
-`/var/www/html` from the host, so uploads sits on a bind mount wherever the
-mapping points, and there was never a clean with/against measurement of the seed
-rate itself. The per-product cost also includes GD rendering, WordPress
-sub-size generation, `WC_Product::save()` (dozens of meta rows per product),
-variation and review inserts, and periodic object-cache clears — any of which
-could dominate. **The real driver of the ~2.4 s/product rate is currently
-unknown.** Not investigated here — the run is in flight; see Notes.
+The bind-mount theory (~35k–50k small image-file writes crossing wp-env's
+`/var/www/html` mount) was investigated and dropped: the mount *is* ~5× slower
+for small files in isolation (800 files: 11.8 s vs 2.4 s on the container
+overlay), but the `.wp-env.json` change meant to act on it — repointing the
+`wp-content/uploads` mapping — was ineffective (wp-env bind-mounts the entire
+`/var/www/html` regardless) and reverted, and the real regression was the AS
+queue, not file I/O.
 
-What *is* settled: there is no way to put `wp-content/uploads` on a fast volume
-within wp-env's supported config (a Docker volume / tmpfs is not expressible in
+There is in any case no way to put `wp-content/uploads` on a fast volume within
+wp-env's supported config (a Docker volume / tmpfs is not expressible in
 `.wp-env.json`; `upload_path` / `upload_url_path` breaks image URLs and the
-Lighthouse image audits). So whatever the cause, "make generation faster" is not
-a lever available here — the response is to make the run **resumable** instead.
+Lighthouse image audits), so "make it faster" was never a strong lever — hence
+the response is to make the run **resumable** and cheap to restart.
+
+### Why the lookup table is not just noise
+
+`wc_product_attributes_lookup` is the index WooCommerce (and the **Phase 3
+Ledger filter engine**) query to answer "which products match these attribute /
+price / stock filters" without scanning `postmeta`. It is the single most
+important property of the seed for what this project measures — filter
+performance against 5,000 products only means something if that table is
+complete and correct. So the seed must not leave it half-built, and the
+snapshot export (task 5.3) both regenerates it in one clean pass and
+**asserts** its row count is consistent with the product and variation counts
+before dumping — a silent partial regeneration would otherwise stay invisible
+until Phase 3 profiling, where we would be tuning the engine against a
+half-indexed store.
 
 ### Why re-running from zero wasn't an option
 
@@ -107,10 +117,21 @@ re-run the **same** `generate` command, and it fills in only the missing tail.
 - `tools/seed` is outside the `phpcs` / `phpstan` scope (`plugins` + `themes`
   only), so this change is not covered by the static gate; it was
   `php -l`-checked and exercised by the 5.2 run.
-- **Open question:** what actually makes generation ~2.4 s/product? Profile a
-  short `--images` run (e.g. Xdebug / `microtime` around GD render, sub-size
-  generation, `WC_Product::save()`, the file writes) once 5.2 is no longer in
-  flight. Until then the number stands unexplained and "it's the bind mount" is
-  not the answer of record.
-- Re-evaluate the throughput question if the project moves local/CI seeding to a
-  native-filesystem Docker host, or wp-env gains a faster sharing backend.
+- **Mitigations added to `generate()`** for the Action Scheduler pile-up (see
+  Context): `wp_defer_term_counting()` + `wp_defer_comment_counting()` around the
+  loop, and `as_unschedule_all_actions( 'woocommerce_run_product_attribute_lookup_update_callback' )`
+  every 200 products. After the run, rebuild the lookup table in one pass with
+  `wp wc tool run regenerate_product_attributes_lookup_table` (the success
+  message says so).
+- **`export-snapshot.mjs` (task 5.3) also cleans up** before the dump: it
+  regenerates the attribute-lookup table, drains the remaining queue,
+  **asserts** the `wc_product_attributes_lookup` row count is consistent with
+  the product / variation counts (aborts the export loudly if not — see "Why the
+  lookup table is not just noise"), then `TRUNCATE`s
+  `wp_actionscheduler_actions` / `_logs` / `_claims`. The committed snapshot
+  must restore a healthy store, not one mid-bulk-import — otherwise every CI
+  restore re-inherits this degradation.
+- The residual ~6 s/product (vs the 2.4 s calibration) is unexplained and not
+  worth chasing — probably `postmeta` growth plus MySQL on the bind-mounted
+  volume. Viable unattended; re-evaluate only if seeding moves to a
+  native-filesystem Docker host or CI.
