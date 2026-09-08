@@ -1,0 +1,82 @@
+[
+  {
+    "theme": "Blocksy",
+    "page": "shop",
+    "url": "https://startersites.io/blocksy/modern-shop/shop/",
+    "id": "blocksy-shop",
+    "source": "local-lighthouse",
+    "status": "ok",
+    "runsCompleted": 3,
+    "lighthouseVersion": "12.8.2",
+    "testDate": "2026-09-08",
+    "fetchTime": "2026-09-08T09:38:52.291Z",
+    "median": {
+      "perfScore": 0.8,
+      "lcpMs": 3769,
+      "tbtMs": 62,
+      "cls": 0.001,
+      "cssKB": 28,
+      "jsKB": 48,
+      "totalKB": 840,
+      "requests": 45,
+      "jquery": "Y"
+    },
+    "spread": {
+      "lcpMs": [
+        5773,
+        3769,
+        3061
+      ],
+      "tbtMs": [
+        122,
+        62,
+        23
+      ],
+      "cls": [
+        0.001,
+        0.001,
+        0.001
+      ]
+    }
+  },
+  {
+    "theme": "Blocksy",
+    "page": "product",
+    "url": "https://startersites.io/blocksy/modern-shop/product/aturna-condimentum-mattis-pellentesque-nibh-tortor/",
+    "id": "blocksy-product",
+    "source": "local-lighthouse",
+    "status": "ok",
+    "runsCompleted": 3,
+    "lighthouseVersion": "12.8.2",
+    "testDate": "2026-09-08",
+    "fetchTime": "2026-09-08T09:39:25.513Z",
+    "median": {
+      "perfScore": 0.81,
+      "lcpMs": 4070,
+      "tbtMs": 10,
+      "cls": 0,
+      "cssKB": 34,
+      "jsKB": 68,
+      "totalKB": 420,
+      "requests": 49,
+      "jquery": "Y"
+    },
+    "spread": {
+      "lcpMs": [
+        4070,
+        4262,
+        4256
+      ],
+      "tbtMs": [
+        10,
+        6,
+        12
+      ],
+      "cls": [
+        0,
+        0,
+        0
+      ]
+    }
+  }
+]

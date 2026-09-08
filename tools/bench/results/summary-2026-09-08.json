@@ -1,0 +1,462 @@
+[
+  {
+    "theme": "Blocksy",
+    "page": "product",
+    "source": "local-lighthouse",
+    "status": "ok",
+    "runsCompleted": 3,
+    "lighthouseVersion": "12.8.2",
+    "testDate": "2026-09-08",
+    "fetchTime": "2026-09-08T09:39:25.513Z",
+    "requestedUrl": "https://startersites.io/blocksy/modern-shop/product/aturna-condimentum-mattis-pellentesque-nibh-tortor/?ledgerbench=2026-09-08-1",
+    "finalUrl": "https://startersites.io/blocksy/modern-shop/product/aturna-condimentum-mattis-pellentesque-nibh-tortor/?ledgerbench=2026-09-08-1",
+    "median": {
+      "perfScore": 0.81,
+      "lcpMs": 4070,
+      "tbtMs": 10,
+      "cls": 0,
+      "cssKB": 34,
+      "jsKB": 68,
+      "docKB": 29,
+      "totalKB": 420,
+      "requests": 49,
+      "jquery": "Y"
+    },
+    "spread": {
+      "lcpMs": [
+        4070,
+        4262,
+        4256
+      ],
+      "tbtMs": [
+        10,
+        6,
+        12
+      ],
+      "cssKB": [
+        34,
+        34,
+        34
+      ],
+      "jsKB": [
+        68,
+        67,
+        68
+      ]
+    }
+  },
+  {
+    "theme": "Blocksy",
+    "page": "shop",
+    "source": "local-lighthouse",
+    "status": "ok",
+    "runsCompleted": 3,
+    "lighthouseVersion": "12.8.2",
+    "testDate": "2026-09-08",
+    "fetchTime": "2026-09-08T09:38:52.291Z",
+    "requestedUrl": "https://startersites.io/blocksy/modern-shop/shop/?ledgerbench=2026-09-08-2",
+    "finalUrl": "https://startersites.io/blocksy/modern-shop/shop/?ledgerbench=2026-09-08-2",
+    "median": {
+      "perfScore": 0.8,
+      "lcpMs": 3769,
+      "tbtMs": 62,
+      "cls": 0.001,
+      "cssKB": 28,
+      "jsKB": 48,
+      "docKB": 28,
+      "totalKB": 840,
+      "requests": 45,
+      "jquery": "Y"
+    },
+    "spread": {
+      "lcpMs": [
+        5773,
+        3769,
+        3061
+      ],
+      "tbtMs": [
+        122,
+        62,
+        23
+      ],
+      "cssKB": [
+        42,
+        28,
+        29
+      ],
+      "jsKB": [
+        94,
+        48,
+        48
+      ]
+    }
+  },
+  {
+    "theme": "Flatsome",
+    "page": "product",
+    "source": "psi",
+    "status": "ok",
+    "runsCompleted": 3,
+    "lighthouseVersion": "13.4.1",
+    "testDate": "2026-09-08",
+    "fetchTime": "2026-09-08T09:29:08.050Z",
+    "requestedUrl": "https://demos.flatsome.com/shop/women/sweaters/on1-jersey-unif-2/?ledgerbench=2026-09-08-1",
+    "finalUrl": "https://demos.flatsome.com/shop/women/sweaters/on1-jersey-unif-2/?ledgerbench=2026-09-08-1",
+    "median": {
+      "perfScore": 0.78,
+      "lcpMs": 5176,
+      "tbtMs": 24,
+      "cls": 0,
+      "cssKB": 61,
+      "jsKB": 374,
+      "docKB": 37,
+      "totalKB": 1101,
+      "requests": 72,
+      "jquery": "Y"
+    },
+    "spread": {
+      "lcpMs": [
+        5176,
+        5101,
+        5026
+      ],
+      "tbtMs": [
+        24,
+        64,
+        54
+      ],
+      "cssKB": [
+        61,
+        61,
+        67
+      ],
+      "jsKB": [
+        374,
+        364,
+        372
+      ]
+    }
+  },
+  {
+    "theme": "Flatsome",
+    "page": "shop",
+    "source": "psi",
+    "status": "ok",
+    "runsCompleted": 3,
+    "lighthouseVersion": "13.4.1",
+    "testDate": "2026-09-08",
+    "fetchTime": "2026-09-08T09:28:45.072Z",
+    "requestedUrl": "https://demos.flatsome.com/shop/?ledgerbench=2026-09-08-3",
+    "finalUrl": "https://demos.flatsome.com/shop/?ledgerbench=2026-09-08-3",
+    "median": {
+      "perfScore": 0.75,
+      "lcpMs": 6226,
+      "tbtMs": 64,
+      "cls": 0.005,
+      "cssKB": 44,
+      "jsKB": 320,
+      "docKB": 29,
+      "totalKB": 1015,
+      "requests": 63,
+      "jquery": "Y"
+    },
+    "spread": {
+      "lcpMs": [
+        7992,
+        6238,
+        6226
+      ],
+      "tbtMs": [
+        101,
+        32,
+        64
+      ],
+      "cssKB": [
+        45,
+        44,
+        44
+      ],
+      "jsKB": [
+        317,
+        313,
+        320
+      ]
+    }
+  },
+  {
+    "theme": "Porto",
+    "page": "product",
+    "source": "psi",
+    "status": "ok",
+    "runsCompleted": 3,
+    "lighthouseVersion": "13.4.1",
+    "testDate": "2026-09-08",
+    "fetchTime": "2026-09-08T09:44:58.548Z",
+    "requestedUrl": "https://www.portotheme.com/wordpress/porto/shop1/product/new-balance-fresh-foam/?ledgerbench=2026-09-08-1",
+    "finalUrl": "https://www.portotheme.com/wordpress/porto/shop1/product/new-balance-fresh-foam/?ledgerbench=2026-09-08-1",
+    "median": {
+      "perfScore": 0.66,
+      "lcpMs": 8893,
+      "tbtMs": 17,
+      "cls": 0.089,
+      "cssKB": 180,
+      "jsKB": 404,
+      "docKB": 38,
+      "totalKB": 1206,
+      "requests": 118,
+      "jquery": "Y"
+    },
+    "spread": {
+      "lcpMs": [
+        8893,
+        8893,
+        8864
+      ],
+      "tbtMs": [
+        17,
+        130,
+        55
+      ],
+      "cssKB": [
+        180,
+        180,
+        180
+      ],
+      "jsKB": [
+        404,
+        404,
+        404
+      ]
+    }
+  },
+  {
+    "theme": "Porto",
+    "page": "shop",
+    "source": "psi",
+    "status": "ok",
+    "runsCompleted": 3,
+    "lighthouseVersion": "13.4.1",
+    "testDate": "2026-09-08",
+    "fetchTime": "2026-09-08T09:42:32.962Z",
+    "requestedUrl": "https://www.portotheme.com/wordpress/porto/shop1/shop/?ledgerbench=2026-09-08-1",
+    "finalUrl": "https://www.portotheme.com/wordpress/porto/shop1/shop/?ledgerbench=2026-09-08-1",
+    "median": {
+      "perfScore": 0.63,
+      "lcpMs": 8262,
+      "tbtMs": 145,
+      "cls": 0.089,
+      "cssKB": 183,
+      "jsKB": 522,
+      "docKB": 35,
+      "totalKB": 1072,
+      "requests": 116,
+      "jquery": "Y"
+    },
+    "spread": {
+      "lcpMs": [
+        8262,
+        8412,
+        8291
+      ],
+      "tbtMs": [
+        145,
+        16,
+        178
+      ],
+      "cssKB": [
+        183,
+        183,
+        183
+      ],
+      "jsKB": [
+        522,
+        522,
+        522
+      ]
+    }
+  },
+  {
+    "theme": "Shoptimizer",
+    "page": "product",
+    "source": "psi",
+    "status": "ok",
+    "runsCompleted": 3,
+    "lighthouseVersion": "13.4.1",
+    "testDate": "2026-09-08",
+    "fetchTime": "2026-09-08T09:35:48.348Z",
+    "requestedUrl": "https://shoptimizerdemo.commercegurus.com/product/endeavour-training-sports-top/?ledgerbench=2026-09-08-2",
+    "finalUrl": "https://shoptimizerdemo.commercegurus.com/product/endeavour-training-sports-top/?ledgerbench=2026-09-08-2",
+    "median": {
+      "perfScore": 0.91,
+      "lcpMs": 3151,
+      "tbtMs": 0,
+      "cls": 0,
+      "cssKB": 2,
+      "jsKB": 87,
+      "docKB": 102,
+      "totalKB": 1444,
+      "requests": 29,
+      "jquery": "Y"
+    },
+    "spread": {
+      "lcpMs": [
+        2851,
+        3151,
+        3155
+      ],
+      "tbtMs": [
+        0,
+        0,
+        0
+      ],
+      "cssKB": [
+        2,
+        2,
+        2
+      ],
+      "jsKB": [
+        87,
+        87,
+        87
+      ]
+    }
+  },
+  {
+    "theme": "Shoptimizer",
+    "page": "shop",
+    "source": "psi",
+    "status": "ok",
+    "runsCompleted": 3,
+    "lighthouseVersion": "13.4.1",
+    "testDate": "2026-09-08",
+    "fetchTime": "2026-09-08T09:31:20.707Z",
+    "requestedUrl": "https://shoptimizerdemo.commercegurus.com/shop/?ledgerbench=2026-09-08-1",
+    "finalUrl": "https://shoptimizerdemo.commercegurus.com/shop/?ledgerbench=2026-09-08-1",
+    "median": {
+      "perfScore": 0.95,
+      "lcpMs": 1869,
+      "tbtMs": 0,
+      "cls": 0,
+      "cssKB": 0,
+      "jsKB": 21,
+      "docKB": 67,
+      "totalKB": 287,
+      "requests": 29,
+      "jquery": "N"
+    },
+    "spread": {
+      "lcpMs": [
+        1869,
+        2043,
+        2191
+      ],
+      "tbtMs": [
+        0,
+        0,
+        0
+      ],
+      "cssKB": [
+        0,
+        0,
+        0
+      ],
+      "jsKB": [
+        21,
+        21,
+        21
+      ]
+    }
+  },
+  {
+    "theme": "Woodmart",
+    "page": "product",
+    "source": "psi",
+    "status": "ok",
+    "runsCompleted": 3,
+    "lighthouseVersion": "13.4.1",
+    "testDate": "2026-09-08",
+    "fetchTime": "2026-09-08T09:40:32.960Z",
+    "requestedUrl": "https://woodmart.xtemos.com/shop/accessories/smart-watches-wood-edition/?ledgerbench=2026-09-08-2",
+    "finalUrl": "https://woodmart.xtemos.com/shop/accessories/smart-watches-wood-edition/?ledgerbench=2026-09-08-2",
+    "median": {
+      "perfScore": 0.71,
+      "lcpMs": 6001,
+      "tbtMs": 135,
+      "cls": 0,
+      "cssKB": 133,
+      "jsKB": 431,
+      "docKB": 63,
+      "totalKB": 1133,
+      "requests": 221,
+      "jquery": "Y"
+    },
+    "spread": {
+      "lcpMs": [
+        2401,
+        6001,
+        4351
+      ],
+      "tbtMs": [
+        72,
+        135,
+        819
+      ],
+      "cssKB": [
+        133,
+        133,
+        133
+      ],
+      "jsKB": [
+        431,
+        431,
+        431
+      ]
+    }
+  },
+  {
+    "theme": "Woodmart",
+    "page": "shop",
+    "source": "psi",
+    "status": "ok",
+    "runsCompleted": 3,
+    "lighthouseVersion": "13.4.1",
+    "testDate": "2026-09-08",
+    "fetchTime": "2026-09-08T09:39:08.960Z",
+    "requestedUrl": "https://woodmart.xtemos.com/shop/?ledgerbench=2026-09-08-3",
+    "finalUrl": "https://woodmart.xtemos.com/shop/?ledgerbench=2026-09-08-3",
+    "median": {
+      "perfScore": 0.83,
+      "lcpMs": 4201,
+      "tbtMs": 114,
+      "cls": 0.001,
+      "cssKB": 113,
+      "jsKB": 425,
+      "docKB": 54,
+      "totalKB": 1002,
+      "requests": 222,
+      "jquery": "Y"
+    },
+    "spread": {
+      "lcpMs": [
+        5540,
+        3751,
+        4201
+      ],
+      "tbtMs": [
+        114,
+        136,
+        114
+      ],
+      "cssKB": [
+        113,
+        113,
+        113
+      ],
+      "jsKB": [
+        425,
+        425,
+        425
+      ]
+    }
+  }
+]
